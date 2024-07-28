@@ -20,8 +20,16 @@ const MicroserviceForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Structure data with field names and values
+    const structuredData = [
+      ["Table Name", formData.tableName],
+      ["Type", formData.type],
+      ["Source Name", formData.sourceName],
+      ["Destination Name", formData.destinationName]
+    ];
+
     // Create worksheet
-    const ws = XLSX.utils.json_to_sheet([formData]);
+    const ws = XLSX.utils.aoa_to_sheet(structuredData);
 
     // Create workbook
     const wb = XLSX.utils.book_new();
@@ -54,9 +62,9 @@ const MicroserviceForm = () => {
             onChange={handleChange}
           >
             <option value="">Select Type</option>
-            <option value="Type1">1</option>
-            <option value="Type2">2</option>
-            <option value="Type2">3</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
           </select>
         </div>
         <div className="mb-3">
@@ -86,4 +94,3 @@ const MicroserviceForm = () => {
 };
 
 export default MicroserviceForm;
-
