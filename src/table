@@ -1,0 +1,120 @@
+import React, { useState } from 'react';
+import * as XLSX from 'sheetjs-style';
+// Import from 'xlsx' instead of 'sheetjs-style'
+
+const MicroserviceForm = () => {
+  const [formData, setFormData] = useState({
+    tableName: '',
+    type: '',
+    sourceName: '',
+    destinationName: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Structure data with field names and values
+    const structuredData = [
+      ["Table Name", formData.tableName],
+      ["Type", formData.type],
+      ["Source Name", formData.sourceName],
+      ["Destination Name", formData.destinationName]
+    ];
+
+    // Create worksheet
+    const ws = XLSX.utils.aoa_to_sheet(structuredData);
+
+    // Create workbook
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    // Export to Excel
+    XLSX.writeFile(wb, "MicroserviceData.xlsx");
+  };
+
+  return (
+    <div className="container mt-5">
+      <h2>Microservice Creation</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="row">
+          {/* Left Side (Labels) */}
+          <div className="col-md-6">
+            <div className="table-responsive">
+              <table className="table table-bordered table-dark">
+                <tbody>
+                  <tr>
+                    <td>Table Name</td>
+                    <td>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="tableName"
+                        value={formData.tableName}
+                        onChange={handleChange}
+                         // Readonly for the left column
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+
+                    <td>Type</td>
+                    <td>
+                      <select
+                        className="form-select"
+                        name="type"
+                        value={formData.type}
+                        onChange={handleChange}
+                      >
+                        <option value="">Select Type</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                    </td>
+                    
+                  </tr>
+                  <tr>
+                    <td>Source Name</td>
+                    <td>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="sourceName"
+                        value={formData.sourceName}
+                        onChange={handleChange}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Destination Name</td>
+                    <td>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="destinationName"
+                        value={formData.destinationName}
+                        onChange={handleChange}
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+         
+        </div>
+        <button type="submit" className="btn btn-primary">Save</button>
+      </form>
+    </div>
+  );
+};
+
+export default MicroserviceForm;
