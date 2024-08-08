@@ -59,6 +59,12 @@ const CreateForm = () => {
     ]);
   };
 
+  const handleRemoveRow = (index) => {
+    const updatedRows = rows.filter((_, i) => i !== index);
+    setRows(updatedRows);
+  };
+  
+
   const handleAddSelectionRow = () => {
     const newSelectionCriteria = `sc-${selectionRows.length + 1}`;
     setSelectionRows([
@@ -66,6 +72,12 @@ const CreateForm = () => {
       { selectionCriteria: newSelectionCriteria, label: '', fieldType: '', fieldVariable: '', localVariable: '', helper: '', helperFunction: '', arrayName: '' }
     ]);
   };
+  const handleRemoveSelectionRow = (index) => {
+    const updatedRows = selectionRows.filter((_, i) => i !== index);
+    setSelectionRows(updatedRows);
+  };
+  
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -271,7 +283,7 @@ const CreateForm = () => {
         <div className="row">
           <div className="col-md-6">
             <div className="table-responsive">
-              <table className="table table-bordered table-dark">
+              <table className="table table-bordered table-primary">
                 <tbody>
                   <tr>
                     <td>Module</td>
@@ -377,7 +389,7 @@ const CreateForm = () => {
           style={{ width: '200%' /* Adjust the percentage as needed */, backgroundColor: '#f8f9fa', padding: '20px' }}
         >
         <div className="table-responsive">
-          <table className="table table-bordered table-dark">
+          <table className="table table-bordered table-primary">
             <thead>
               <tr>
                 <th>Column Name</th>
@@ -396,6 +408,7 @@ const CreateForm = () => {
                 <th>GetPageDet</th>
                 <th>GetRecord</th>
                 <th>Remarks</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -709,6 +722,15 @@ const CreateForm = () => {
                   <td><input type="text" name="getpagedet" value={row.getpagedet} onChange={(e) => handleRowChange(index, e)} className="form-control" /></td>
                   <td><input type="text" name="getrecord" value={row.getrecord} onChange={(e) => handleRowChange(index, e)} className="form-control" /></td>
                   <td><input type="text" name="Remarks" value={row.Remarks} onChange={(e) => handleRowChange(index, e)} className="form-control" /></td>
+                  <td>
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={() => handleRemoveRow(index)}
+                      >
+                        -
+                      </button>
+                    </td>
                 </tr>
               ))}
               <tr>
@@ -1441,6 +1463,7 @@ const CreateForm = () => {
                         
                       />
                     </td>
+                    
                   </tr>
                  
             </tbody>
@@ -1450,7 +1473,7 @@ const CreateForm = () => {
        
         <h3>Selection Criteria Details</h3>
         <div className="table-responsive">
-          <table className="table table-bordered table-dark">
+          <table className="table table-bordered table-primary">
             <thead>
               <tr>
                 <th>Selection Criteria</th>
@@ -1461,6 +1484,7 @@ const CreateForm = () => {
                 <th>Helper</th>
                 <th>Helper Function</th>
                 <th>Array Name</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -1474,6 +1498,15 @@ const CreateForm = () => {
                   <td><input type="text" name="helper" value={row.helper} onChange={(e) => handleSelectionRowChange(index, e)} className="form-control" /></td>
                   <td><input type="text" name="helperFunction" value={row.helperFunction} onChange={(e) => handleSelectionRowChange(index, e)} className="form-control" /></td>
                   <td><input type="text" name="arrayName" value={row.arrayName} onChange={(e) => handleSelectionRowChange(index, e)} className="form-control" /></td>
+                  <td>
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={() => handleRemoveSelectionRow(index)}
+                      >
+                        -
+                      </button>
+                    </td>
                 </tr>
               ))}
             </tbody>

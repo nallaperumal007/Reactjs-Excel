@@ -22,14 +22,18 @@ const Sample = () => {
     ]);
   };
 
+  const handleRemoveRow = (index) => {
+    const updatedRows = rows.filter((_, i) => i !== index);
+    setRows(updatedRows);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Structure data with field names in the first row and values in the subsequent rows
     const structuredData1 = [
       [{ v: "Basic Detail", s: { font: { bold: true } } }, ""],
-      ["", ""], 
-      ["", ""], 
+      ["", ""],
+      ["", ""],
       [
         { v: "Selection Criteria", s: { font: { bold: true }, fill: { fgColor: { rgb: "FFFF00" } } } },
         { v: "Label", s: { font: { bold: true }, fill: { fgColor: { rgb: "FFFF00" } } } },
@@ -43,14 +47,10 @@ const Sample = () => {
       ...rows.map(row => [row.selectionCriteria, row.label, row.fieldType, row.fieldVariable, row.localVariable, row.helper, row.helperFunction, row.arrayName])
     ];
 
-    // Create worksheet
     const ws = XLSX.utils.aoa_to_sheet(structuredData1);
-
-    // Create workbook
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
 
-    // Export to Excel
     XLSX.writeFile(wb, "MicroserviceData.xlsx");
   };
 
@@ -64,7 +64,7 @@ const Sample = () => {
         <div className="row">
           <div className="col-md-12">
             <div className="table-responsive">
-              <table className="table table-bordered table-dark">
+              <table className="table table-bordered table-primary">
                 <thead>
                   <tr>
                     <th>Selection Criteria</th>
@@ -75,6 +75,7 @@ const Sample = () => {
                     <th>Helper</th>
                     <th>Helper Function</th>
                     <th>Array Name</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -151,6 +152,15 @@ const Sample = () => {
                           value={row.arrayName}
                           onChange={(e) => handleChange(index, e)}
                         />
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={() => handleRemoveRow(index)}
+                        >
+                          -
+                        </button>
                       </td>
                     </tr>
                   ))}
